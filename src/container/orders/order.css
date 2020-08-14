@@ -8,21 +8,18 @@
     margin: 0 auto;
     border: 1px solid black;
 }
+
 .centerText {
     text-align: center;
 }
 
-.tag {
-    padding-top: 50px;
-    font-size: 30px;
-}
-
-.btn {
-    margin: 10px 5px;
-    font-size: 20px;
-}
 
 .total {
     text-align: center;
 }
 
+
+.btn {
+    margin: 10px 5px;
+    font-size: 20px;
+}

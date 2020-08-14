@@ -1,12 +1,19 @@
 import React from 'react';
-import OrderList from '../build/orderitem'
-import styles from './page.module.css'
+import OrderList from '../../component/orderItem/orderitem'
+import styles from './order.css'
 const Orders = (props)=>{
+
+    price = {
+        'meat': 5,
+        'salad': 3,
+        'cheese': 4,
+        'bacon': 2
+    }
     let cost = 0
     props.orderlist.forEach(element => {
-        cost += 10
+        cost += 3
         for (const [name, amount] of Object.entries(element)){
-            cost += amount * props.pricetag[name]
+            cost += amount * price[name]
         }
     });
     return (
@@ -17,7 +24,7 @@ const Orders = (props)=>{
                 </h2>
             </div>
             <div className = {styles.container}>
-                <OrderList orderlist = {props.orderlist} pricetag = {props.pricetag}/>
+                <OrderList orderlist = {props.orderlist} pricetag = {this.price}/>
                 <p className = {styles.total}>Total: {cost} dollars</p>
             </div>
             <div className = {styles.centerText}>

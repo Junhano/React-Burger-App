@@ -1,0 +1,26 @@
+.orderheader {
+    padding-top: 20px;
+}
+
+.orderlabel {
+    display: block;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.summary {
+    padding-top: 40px;
+}
+
+.buttongroup {
+    position: absolute;
+    bottom: 0px;
+    height: 60px;
+    width: 100%;
+
+}
+
+.button {
+    width: 50%;
+    height: 100%;
+}

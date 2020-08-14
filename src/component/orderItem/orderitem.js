@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
-import styles from './build.module.css'
-import './build.module.css'
-import Context from '../context/context'
+import React from 'react';
+import styles from './orderitem.css'
+import './orderitem.css'
+
 
 const OrderItem = (props)=>{
-    const context = useContext(Context)
     let totalprice
 
     const OrderList = props.orderlist.map((order, index) =>{
@@ -13,11 +12,12 @@ const OrderItem = (props)=>{
             totalprice += amount * props.pricetag[name]
         }
         return (
-            <div className = {styles.orderrow} onClick = {()=>context.deleteorder(index)} key = {index}>
+            <div className = {styles.orderrow} key = {index}>
                 <label>Order# {index + 1}</label>
                 <label>meat: {order['meat']}</label>
                 <label>salad:{order['salad']}</label>
                 <label>cheese:{order['cheese']}</label>
+                <label>Bacon: {order['bacon']}</label>
                 <label>Price: {totalprice} Dollars</label>
             </div>
         )
