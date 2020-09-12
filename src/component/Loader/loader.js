@@ -1,14 +1,8 @@
-import React from 'react'
-import './loader.css'
-const Loader = ()=>{
-    return (
-        <div className ="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>  
-    )
-}
+import React from "react";
 
-export default Loader
+import classes from "./loader.css";
+const Loader = () => {
+  return <div className={classes.loader}></div>;
+};
+
+export default Loader;
