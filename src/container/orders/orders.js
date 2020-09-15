@@ -1,45 +1,80 @@
-import React, {Component} from 'react';
-import OrderList from '../../component/orderItem/orderitem'
-import styles from './order.css'
+import React, { Component } from "react";
+import OrderList from "../../component/orderItem/orderitem";
+import styles from "./order.css";
+import axios from "../../axios-orders";
+import Loader from "../../component/Loader/loader";
+import Modal from "../../component/Modal/Modal";
+import Aux from "../../component/Aux/Aux";
+class Orders extends Component {
+  state = {
+    orders: {},
+    loading: true,
+    cost: 0,
+  };
 
-
-class Orders extends Component{
-
-    price = {
-        'meat': 5,
-        'salad': 3,
-        'cheese': 4,
-        'bacon': 2
-    }
-    cost = 0
-    
-
-    _ = this.props.orderlist.forEach(element => {
-        this.cost += 10
-        for (const [name, amount] of Object.entries(element)){
-            this.cost += amount * this.price[name]
+  componentDidMount() {
+    axios
+      .get("order.json")
+      .then((response) => {
+        const keys = Object.keys(response.data);
+        let totalcost = 0;
+        for (const key of keys) {
+          let entries = Object.entries(response.data[key]);
+          totalcost += 3;
+          for (const [name, amount] of entries) {
+            totalcost += this.price[name] * amount;
+          }
         }
-    })
+        console.log(totalcost);
+        this.setState({
+          orders: response.data,
+          loading: false,
+          cost: totalcost,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  price = {
+    meat: 5,
+    salad: 3,
+    cheese: 4,
+    bacon: 2,
+  };
 
-    render(){
-        return (
-            <div className = {styles.emptypadding}>
-                <div>
-                    <h2 className = {styles.centerText}>
-                        Orders Page
-                    </h2>
-                </div>
-                <div className = {styles.container}>
-                    <OrderList orderlist = {this.props.orderlist} pricetag = {this.price}/>
-                    <p className = {styles.total}>Total: {this.cost} dollars</p>
-                </div>
-                <div className = {styles.centerText}>
-                    <button onClick = {this.props.checkOut} className = {styles.btn}>Checkout</button>
-                </div>
-            </div>
-        )
-    }
+  MainContent = () => {
+    return (
+      <Aux>
+        {!this.state.loading ? (
+          <div className={styles.container}>
+            <OrderList orderlist={this.state.orders} pricetag={this.price} />
+            <p className={styles.total}>Total: {this.state.cost} dollars</p>
+          </div>
+        ) : (
+          <Modal>
+            <Loader />
+          </Modal>
+        )}
+      </Aux>
+    );
+  };
 
+  render() {
+    return (
+      <div className={styles.emptypadding}>
+        <div>
+          <h2 className={styles.centerText}>Orders Page</h2>
+        </div>
+        {this.MainContent()}
+        <div className={styles.centerText}>
+          <button onClick={this.props.checkOut} className={styles.btn}>
+            Checkout
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default Orders
+export default Orders;
