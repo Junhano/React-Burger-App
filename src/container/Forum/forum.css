@@ -1,0 +1,16 @@
+.emptypadding {
+  padding-top: 70px;
+  width: 100%;
+}
+
+.form {
+  width: 100%;
+  text-align: center;
+}
+
+.order {
+  margin: 20px;
+  width: 10%;
+  height: 40px;
+  border-radius: 5px;
+}

@@ -6,8 +6,6 @@ import Modal from "../../component/Modal/Modal";
 import Aux from "../../component/Aux/Aux";
 import Summary from "../../component/Summary/summary";
 import Loader from "../../component/Loader/loader";
-import axios from "../../axios-orders";
-import ErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const emptyItem = {
   meat: 0,
@@ -70,20 +68,11 @@ class Builder extends Component {
   };
 
   confirmCheckOut = () => {
-    this.setState({ loading: true });
-    const updateItem = { ...this.state.item };
-    axios
-      .post("order.json", updateItem)
-      .then((response) => {
-        console.log(response);
-        this.setState({ loading: false, item: { ...emptyItem }, price: 3 });
-        this.DismissModal();
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({ loading: false, item: { ...emptyItem }, price: 3 });
-        this.DismissModal();
-      });
+    this.props.history.push({
+      pathname: "/form",
+      state: { orders: { ...this.state.item } },
+    });
+    this.setState({ loading: false, item: { ...emptyItem }, price: 3 });
   };
 
   Modals = () => {
@@ -143,4 +132,4 @@ class Builder extends Component {
   }
 }
 
-export default ErrorHandler(Builder, axios);
+export default Builder;
