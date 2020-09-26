@@ -16,21 +16,25 @@ class Orders extends Component {
     axios
       .get("order.json")
       .then((response) => {
-        const keys = Object.keys(response.data);
-        let totalcost = 0;
-        for (const key of keys) {
-          let entries = Object.entries(response.data[key]);
-          totalcost += 3;
-          for (const [name, amount] of entries) {
-            totalcost += this.price[name] * amount;
+        if (response.data !== null) {
+          const keys = Object.keys(response["data"]);
+          let totalcost = 0;
+          for (const key of keys) {
+            let entries = Object.entries(response["data"][key].order);
+            totalcost += 3;
+            for (const [name, amount] of entries) {
+              totalcost += this.price[name] * amount;
+            }
           }
+
+          this.setState({
+            orders: response.data,
+            loading: false,
+            cost: totalcost,
+          });
+        } else {
+          this.setState({ loading: false });
         }
-        console.log(totalcost);
-        this.setState({
-          orders: response.data,
-          loading: false,
-          cost: totalcost,
-        });
       })
       .catch((err) => {
         console.log(err);

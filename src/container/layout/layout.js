@@ -8,14 +8,38 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Form from "../Forum/forum";
 
 class Layout extends Component {
+  state = {
+    orderstart: false,
+  };
+
+  changeorderState = () => {
+    this.setState({
+      orderstart: !this.state.orderstart,
+    });
+  };
   render() {
     return (
       <Aux>
         <div className={styles.background}>
           <Burgerheader />
           <Switch>
-            <Route path="/builder" component={Builder} />
+            <Route
+              path="/builder"
+              render={(props) => (
+                <Builder {...props} ordercheck={this.changeorderState} />
+              )}
+            />
             <Route path="/order" component={Order} />
+            {this.state.orderstart ? (
+              <Route
+                path="/form"
+                render={(props) => (
+                  <Form {...props} ordercheck={this.changeorderState} />
+                )}
+              />
+            ) : (
+              <Redirect from="/form" to="/builder" />
+            )}
             <Route path="/form" component={Form} />
             <Redirect from="/" to="/builder" />
           </Switch>

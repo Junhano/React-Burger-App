@@ -3,9 +3,12 @@ import styles from "./forum.css";
 import InputGroup from "../../component/Inputgroup/inputgroup";
 import axios from "../../axios-orders";
 import ErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import Loader from "../../component/Loader/loader";
+import Modal from "../../component/Modal/Modal";
 
 class Forum extends Component {
   state = {
+    loading: false,
     Inputs: {
       fname: {
         value: "",
@@ -62,6 +65,7 @@ class Forum extends Component {
 
   submit = (event) => {
     event.preventDefault();
+    this.setState({ loading: true });
     const keys = Object.keys(this.state["Inputs"]);
     const personalinformation = {};
     for (const key of keys) {
@@ -77,9 +81,11 @@ class Forum extends Component {
       .post("order.json", submitdata)
       .then((response) => {
         console.log(response);
+        this.props.ordercheck();
       })
       .catch((error) => {
         console.log(error);
+        this.props.ordercheck();
       });
   };
 
@@ -90,6 +96,12 @@ class Forum extends Component {
       ...Inputss,
     });
   };
+
+  loadingmodal = (
+    <Modal>
+      <Loader />
+    </Modal>
+  );
 
   render() {
     const keys = Object.keys(this.state["Inputs"]);
@@ -110,6 +122,7 @@ class Forum extends Component {
           {formgroup}
           <button className={styles.order}>Order</button>
         </form>
+        {this.state.loading ? this.loadingmodal : null}
       </div>
     );
   }

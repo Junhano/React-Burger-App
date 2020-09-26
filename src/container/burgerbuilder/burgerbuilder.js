@@ -5,7 +5,6 @@ import styles from "./burgerbuilder.css";
 import Modal from "../../component/Modal/Modal";
 import Aux from "../../component/Aux/Aux";
 import Summary from "../../component/Summary/summary";
-import Loader from "../../component/Loader/loader";
 
 const emptyItem = {
   meat: 0,
@@ -28,7 +27,6 @@ class Builder extends Component {
     },
     price: 3,
     ordering: false,
-    loading: false,
   };
 
   addItem = (type) => {
@@ -78,16 +76,13 @@ class Builder extends Component {
   Modals = () => {
     return (
       <Modal>
-        {!this.state.loading ? (
-          <Summary
-            items={this.state.item}
-            price={this.state.price}
-            cancel={this.DismissModal}
-            proceed={this.confirmCheckOut}
-          />
-        ) : (
-          <Loader />
-        )}
+        <Summary
+          items={this.state.item}
+          price={this.state.price}
+          cancel={this.DismissModal}
+          proceed={this.confirmCheckOut}
+          formenable={this.props.ordercheck}
+        />
       </Modal>
     );
   };
